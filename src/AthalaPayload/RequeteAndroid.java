@@ -16,6 +16,7 @@ public class RequeteAndroid implements Requete,Serializable {
     public static int REQUEST_NEW_USER = 2;
     public static int REQUEST_GET_CHARAC= 3;
     public static int REQUEST_NEW_CHARAC= 4;
+    public static int REQUEST_BEACON = 5;
     private int type;
     private User u;
     public RequeteAndroid(int t,String n,String p)
@@ -28,6 +29,16 @@ public class RequeteAndroid implements Requete,Serializable {
         type = t;
         u=ut;
     }
+
+    public int getType() {
+        return type;
+    }
+
+    public User getU() {
+        return u;
+    }
+    
+    
     @Override
     public Runnable createRunnable(final Socket s, final ConsoleServeur cs) {
         if(type==REQUEST_LOGIN)

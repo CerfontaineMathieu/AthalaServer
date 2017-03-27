@@ -13,13 +13,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/mathi/Documents/NetBeansProjects/AthalaServer/src/athalaserver/AthalaGUI.java</file>
-            <file>file:/C:/Users/mathi/Documents/NetBeansProjects/AthalaServer/src/AthalaPayload/ReponseAndroid.java</file>
             <file>file:/C:/Users/mathi/Documents/NetBeansProjects/AthalaServer/src/AthalaThreads/ThreadClient.java</file>
-            <file>file:/C:/Users/mathi/Documents/NetBeansProjects/AthalaServer/src/AthalaData/Character.java</file>
-            <file>file:/C:/Users/mathi/Documents/NetBeansProjects/AthalaServer/src/AthalaData/User.java</file>
-            <file>file:/C:/Users/mathi/Documents/NetBeansProjects/AthalaServer/src/AthalaThreads/ThreadServer.java</file>
+            <file>file:/C:/Users/mathi/Documents/NetBeansProjects/AthalaServer/src/AthalaThreads/ThreadBeacon.java</file>
+            <file>file:/C:/Users/mathi/Documents/NetBeansProjects/AthalaServer/src/AthalaThreads/ThreadTimer.java</file>
             <file>file:/C:/Users/mathi/Documents/NetBeansProjects/AthalaServer/src/AthalaPayload/RequeteAndroid.java</file>
-            <file>file:/C:/Users/mathi/Documents/NetBeansProjects/AthalaServer/src/AthalaPayload/ConsoleServeur.java</file>
+            <file>file:/C:/Users/mathi/Documents/NetBeansProjects/AthalaServer/src/AthalaThreads/ThreadRefresh.java</file>
         </group>
     </open-files>
 </project-private>

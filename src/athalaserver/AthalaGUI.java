@@ -4,32 +4,26 @@ package athalaserver;
 import AthalaData.User;
 import AthalaPayload.*;
 import AthalaThreads.ThreadBeacon;
+import AthalaThreads.ThreadRefresh;
 import AthalaThreads.ThreadServer;
-import java.awt.Component;
+import AthalaThreads.ThreadTimer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
-import javax.swing.ListModel;
 public class AthalaGUI extends javax.swing.JFrame implements ConsoleServeur{
 
     private ThreadBeacon thB;
     private ThreadServer thS;    
+    private ThreadTimer thT;
+    private ThreadRefresh thR;
     public List<User> UsersList;
-    public List<User> ConnectedUsers;
+    private HashMap<String,Long> cooldowns = new HashMap<String,Long>();    
     private static final String filePathString = System.getProperty("user.dir") + System.getProperty("file.separator")+"UsersList";
     /**
      * Creates new form AthalaGUI
@@ -52,12 +46,16 @@ public class AthalaGUI extends javax.swing.JFrame implements ConsoleServeur{
             UsersList=new ArrayList<User>();
         }
         Trace("Initialisation du serveur Athala ...");                
-        ConnectedUsers = new ArrayList<User>();
         
+       
         thB = new ThreadBeacon(this);
         thB.start();
         thS = new ThreadServer(this);
         thS.start();
+        thT = new ThreadTimer(this,cooldowns);
+        thT.start();        
+        thR = new ThreadRefresh(JUsersList,cooldowns);
+        thR.start();
     }
 
     /**
@@ -177,10 +175,7 @@ public class AthalaGUI extends javax.swing.JFrame implements ConsoleServeur{
 
     @Override
     public void AddClient(User u) {
-        ConnectedUsers.add(u);
-        DefaultListModel dlm = new DefaultListModel();
-        dlm.addElement(u);
-        JUsersList.setModel(dlm);
+        cooldowns.put(u.getUsername(), System.currentTimeMillis());
     }
 
     @Override
