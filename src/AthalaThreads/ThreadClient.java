@@ -7,6 +7,7 @@ package AthalaThreads;
 
 import AthalaPayload.ConsoleServeur;
 import AthalaPayload.Requete;
+import AthalaPayload.RequeteAndroid;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -33,7 +34,7 @@ public class ThreadClient extends Thread{
     {
                 
         ObjectInputStream ois=null;
-        Requete req=null;
+        RequeteAndroid req=null;
         try {
             ois=new ObjectInputStream(Sclient.getInputStream());
         } catch (IOException ex) {
@@ -43,10 +44,17 @@ public class ThreadClient extends Thread{
             {
                 try
                 {                           
-                    req=(Requete)ois.readObject();
-                    Runnable work=req.createRunnable(Sclient, gui);
-                    Thread th = new Thread(work);
-                    th.start();                    
+                    req=(RequeteAndroid)ois.readObject();
+                    if(req.getType() == RequeteAndroid.REQUEST_BEACON)
+                    {
+                      gui.AddClient(req.getU());
+                    }
+                    else
+                    {
+                        Runnable work=req.createRunnable(Sclient, gui);                    
+                        Thread th = new Thread(work);
+                        th.start();                    
+                    }
                 } catch (IOException ex) {
                     System.out.println("An error occured : read object failed ["+ex+"]");
                     finish=false;

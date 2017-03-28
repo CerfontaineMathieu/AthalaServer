@@ -6,6 +6,7 @@ import AthalaPayload.*;
 import AthalaThreads.ThreadBeacon;
 import AthalaThreads.ThreadRefresh;
 import AthalaThreads.ThreadServer;
+import AthalaThreads.ThreadServerTimeout;
 import AthalaThreads.ThreadTimer;
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,6 +23,7 @@ public class AthalaGUI extends javax.swing.JFrame implements ConsoleServeur{
     private ThreadServer thS;    
     private ThreadTimer thT;
     private ThreadRefresh thR;
+    private ThreadServerTimeout thST;
     public List<User> UsersList;
     private HashMap<String,Long> cooldowns = new HashMap<String,Long>();    
     private static final String filePathString = System.getProperty("user.dir") + System.getProperty("file.separator")+"UsersList";
@@ -56,6 +58,8 @@ public class AthalaGUI extends javax.swing.JFrame implements ConsoleServeur{
         thT.start();        
         thR = new ThreadRefresh(JUsersList,cooldowns);
         thR.start();
+        thST = new ThreadServerTimeout(this);
+        thST.start();
     }
 
     /**
@@ -175,7 +179,13 @@ public class AthalaGUI extends javax.swing.JFrame implements ConsoleServeur{
 
     @Override
     public void AddClient(User u) {
-        cooldowns.put(u.getUsername(), System.currentTimeMillis());
+        try
+        {
+            cooldowns.put(u.getUsername(), System.currentTimeMillis());
+        }catch(Exception e)
+        {
+            System.out.println("An errod occured : ["+e+"]");
+        }
     }
 
     @Override

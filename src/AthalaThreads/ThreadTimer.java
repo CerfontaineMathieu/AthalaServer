@@ -25,7 +25,7 @@ public class ThreadTimer extends Thread{
     private boolean finish= true;
     private ConsoleServeur gui;
     private HashMap<String,Long> cooldowns;
-    private final int seconds = 60;
+    private final int seconds = 10;
     public ThreadTimer(ConsoleServeur g,HashMap<String,Long> cd)
     {
         gui=g;
