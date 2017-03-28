@@ -125,7 +125,7 @@ public class RequeteAndroid implements Requete,Serializable {
     }
     private void doLogin(Socket s,ConsoleServeur cs)
     {
-        String addr=s.getRemoteSocketAddress().toString();
+        String addr=s.getRemoteSocketAddress().toString();        
         // Add user in the connected users list if the user is authenticated successfully.
         ReponseAndroid rep =null;
         if(cs.AuthenticateUser(u))

@@ -37,6 +37,7 @@ public class AthalaGUI extends javax.swing.JFrame implements ConsoleServeur{
         if(f.exists() && !f.isDirectory()) { 
             try  
             {
+             Trace("Chargement des informations utilisateurs dans le fichier "+filePathString);
              FileInputStream fis = new FileInputStream(filePathString);
              ObjectInputStream ois = new ObjectInputStream(fis);
              UsersList = (List<User>)ois.readObject();
@@ -45,7 +46,21 @@ public class AthalaGUI extends javax.swing.JFrame implements ConsoleServeur{
              { Trace("Impossible de désérialiser la liste d'utilisateurs. Vérifier que le fichier existe et réessayer : "+e); }
         }else
         {
+            Trace("Fichier des informations utilisateurs inexistant création sur le chemin : "+filePathString);
+            
             UsersList=new ArrayList<User>();
+            try
+            {
+                FileOutputStream fos = new FileOutputStream(filePathString);
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                oos.writeObject(UsersList);         
+                oos.close();
+            }
+            catch(Exception e)
+            {
+                Trace("Erreur lors de la création du fichier ... : "+e);
+            }
+                    
         }
         Trace("Initialisation du serveur Athala ...");                
         
