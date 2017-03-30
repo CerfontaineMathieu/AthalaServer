@@ -264,7 +264,9 @@ public class AthalaGUI extends javax.swing.JFrame implements ConsoleServeur{
                   oos.close();                                    
                 } 
                 catch (Exception e)
-                { Trace("Impossible de désérialiser la liste d'utilisateurs. Vérifier que le fichier existe et réessayer."); }
+                { 
+                    Trace("Impossible de désérialiser la liste d'utilisateurs. Vérifier que le fichier existe et réessayer."); 
+                 }
                     return true;
             }
         }

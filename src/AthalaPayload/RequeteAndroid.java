@@ -17,6 +17,7 @@ public class RequeteAndroid implements Requete,Serializable {
     public static int REQUEST_GET_CHARAC= 3;
     public static int REQUEST_NEW_CHARAC= 4;
     public static int REQUEST_BEACON = 5;
+    public static int REQUEST_DELETE_CHARAC= 6;
     private int type;
     private User u;
     public RequeteAndroid(int t,String n,String p)
@@ -37,8 +38,8 @@ public class RequeteAndroid implements Requete,Serializable {
     public User getU() {
         return u;
     }
-    
-    
+
+
     @Override
     public Runnable createRunnable(final Socket s, final ConsoleServeur cs) {
         if(type==REQUEST_LOGIN)
@@ -69,23 +70,23 @@ public class RequeteAndroid implements Requete,Serializable {
                 }
             };
         }
-        else if(type == REQUEST_NEW_CHARAC ){
+        else if(type == REQUEST_NEW_CHARAC || type == REQUEST_DELETE_CHARAC){
             return new Runnable() {
 
                 public void run() {
-                    doNewCharac(s,cs);
+                    doSaveUser(s,cs);
                 }
             };
         }
         else{return null;}
     }
 
-    private void doNewCharac(Socket s,ConsoleServeur cs){
-        cs.Trace("Création d'un nouveau personnage pour l'utilisateur "+ u);
+    private void doSaveUser(Socket s,ConsoleServeur cs){
+        cs.Trace("Sauvegarde des modifications utilisateur : "+ u);
         boolean result = cs.saveUser(u);
         ReponseAndroid rep = null;
         if(result){ rep = new ReponseAndroid(ReponseAndroid.REPONSE_OK);}
-            else{rep = new ReponseAndroid(ReponseAndroid.REPONSE_NOK);}
+        else{rep = new ReponseAndroid(ReponseAndroid.REPONSE_NOK);}
         try
         {
             ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
@@ -125,7 +126,7 @@ public class RequeteAndroid implements Requete,Serializable {
     }
     private void doLogin(Socket s,ConsoleServeur cs)
     {
-        String addr=s.getRemoteSocketAddress().toString();        
+        String addr=s.getRemoteSocketAddress().toString();
         // Add user in the connected users list if the user is authenticated successfully.
         ReponseAndroid rep =null;
         if(cs.AuthenticateUser(u))
